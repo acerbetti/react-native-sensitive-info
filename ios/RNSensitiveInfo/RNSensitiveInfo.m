@@ -167,7 +167,8 @@ RCT_EXPORT_METHOD(getItem:(NSString *)key options:(NSDictionary *)options resolv
     if([RCTConvert NSString:options[@"kSecUseOperationPrompt"]] != NULL){
         [query setValue:[RCTConvert NSString:options[@"kSecUseOperationPrompt"]] forKey:(NSString *)kSecUseOperationPrompt];
     }
-    
+
+#if !TARGET_OS_TV
     if([RCTConvert BOOL:options[@"touchID"]]){
         LAContext *context = [[LAContext alloc] init];
         NSString *kLocalizedFallbackTitle = [RCTConvert NSString:options[@"kLocalizedFallbackTitle"]];
@@ -200,6 +201,7 @@ RCT_EXPORT_METHOD(getItem:(NSString *)key options:(NSDictionary *)options resolv
                           }];
         return;
     }
+#endif
     
     [self getItemWithQuery:query resolver:resolve rejecter:reject];
 }
